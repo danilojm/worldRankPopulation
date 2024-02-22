@@ -13,8 +13,8 @@
         <TableView fx:id="tableView" layoutX="25.0" layoutY="25.0" prefHeight="550.0"
             prefWidth="1150.0">
             <columns>
-                <TableColumn fx:id="countryColumn" prefWidth="574.0" text="Country" />
-                <TableColumn fx:id="populationColumn" prefWidth="574.0" text="Population" />
+                <TableColumn fx:id="countryColumn" prefWidth="573.0" text="Country" />
+                <TableColumn fx:id="populationColumn" prefWidth="573.0" text="Population" />
             </columns>
         </TableView>
     </children>

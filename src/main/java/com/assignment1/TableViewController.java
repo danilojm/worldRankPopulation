@@ -27,7 +27,7 @@ public class TableViewController implements Initializable {
     private TableColumn<PopulationData, String> countryColumn;
 
     @FXML
-    private TableColumn<PopulationData, Long> populationColumn;
+    private TableColumn<PopulationData, String> populationColumn;
 
     // Data
     private ObservableList<PopulationData> populationDataList = FXCollections.observableArrayList();
@@ -43,10 +43,23 @@ public class TableViewController implements Initializable {
         // tableView.setLayoutY(25);
 
         countryColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getCountry()));
-        populationColumn.setCellValueFactory(data -> new SimpleLongProperty(data.getValue().getPopulation()).asObject());
+        //populationColumn.setCellValueFactory(data -> new SimpleLongProperty(data.getValue().getPopulation()).asObject());
+        populationColumn.setCellValueFactory(data -> {
+            String population = String.valueOf(data.getValue().getPopulation()); // Assuming your model provides the population as a string
+            // Apply your mask or formatting logic here
+            String maskedPopulation = applyMask(population); // You need to implement applyMask method
+            return new SimpleStringProperty(maskedPopulation);
+        });
 
         // Populate table with data
         populateTable();
+    }
+
+    // Method to apply mask or formatting logic to the population
+    private String applyMask(String population) {
+        // Implement your mask or formatting logic here
+        // For example, you could add commas to separate thousands: "1,000,000"
+        return population.replaceAll("(?<=\\d)(?=(?:\\d{3})+(?!\\d))", ",");
     }
 
     public void initData(int year, String country, String order, boolean checkBoxSelected, String filterNumberCountries) {
@@ -77,10 +90,11 @@ public class TableViewController implements Initializable {
 
             try (PreparedStatement stmt = conn.prepareStatement(sql)) {
                 stmt.setInt(1, year);
-                if (!"ALL".equals(country)) {
+                if (!"ALL".equals(country) && !checkBoxSelected) {
                     stmt.setString(2, country);
                 }
                 try (ResultSet rs = stmt.executeQuery()) {
+                    DecimalFormat df = new DecimalFormat("#,###");
                     while (rs.next()) {
                         String countryName = rs.getString("country");
                         long population = rs.getLong("population");

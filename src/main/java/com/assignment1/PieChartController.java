@@ -23,6 +23,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.paint.Paint;
 import javafx.util.Duration;
 import sql.DBConnection;
 
@@ -87,7 +88,9 @@ public class PieChartController implements Initializable {
         filterNumberCountriesTextField.setText("15");
     }
 
-    /* Add listeners to ComboBoxes and TextField to update chart data when changed */
+    /*
+     * Add listeners to ComboBoxes and TextField to update chart data when changed
+     */
     private void addComboBoxListeners() {
         yearComboBox.valueProperty().addListener((observable, oldValue, newValue) -> updateChartData());
         countryComboBox.valueProperty().addListener((observable, oldValue, newValue) -> updateChartData());
@@ -95,7 +98,7 @@ public class PieChartController implements Initializable {
         checkBox.selectedProperty().addListener((observable, oldValue, newValue) -> {
             // Update chart data when the checkbox value changes
             updateChartData();
-        
+
             // Enable or disable other controls based on the checkbox value
             if (newValue) {
                 // Checkbox is checked, disable other controls
@@ -109,7 +112,8 @@ public class PieChartController implements Initializable {
                 filterNumberCountriesTextField.setDisable(false);
             }
         });
-        filterNumberCountriesTextField.textProperty().addListener((observable, oldValue, newValue) -> updateChartData());
+        filterNumberCountriesTextField.textProperty()
+                .addListener((observable, oldValue, newValue) -> updateChartData());
     }
 
     /* Update chart data based on current ComboBox and TextField values */
@@ -167,9 +171,9 @@ public class PieChartController implements Initializable {
         return countries;
     }
 
-     /* Build and display table view */
-     private Node buildTableView() {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("TableView.fxml"));
+    /* Build and display table view */
+    private Node buildTableView() {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("view/TableView.fxml"));
         Node table = null;
         try {
             table = loader.load(); // Load TableView from FXML
@@ -201,7 +205,7 @@ public class PieChartController implements Initializable {
 
             try (PreparedStatement stmt = conn.prepareStatement(sql)) {
                 stmt.setInt(1, yearComboBox.getValue());
-                if (!"ALL".equals(countryComboBox.getValue())) {
+                if (!"ALL".equals(countryComboBox.getValue()) && !checkBox.isSelected()) {
                     stmt.setString(2, countryComboBox.getValue());
                 }
                 try (ResultSet rs = stmt.executeQuery()) {
@@ -219,11 +223,14 @@ public class PieChartController implements Initializable {
         }
 
         PieChart pieChart = new PieChart(pieChartData);
-        pieChart.setTitle("Population Data");
-        pieChart.setClockwise(true); //setting the direction to arrange the data 
-        pieChart.setLabelLineLength(50); //Setting the length of the label line 
-        pieChart.setLabelsVisible(true); //Setting the labels of the pie chart visible
-        pieChart.setLegendVisible(true);
+        pieChart.setTitle("World Population Ranking");
+        pieChart.setClockwise(true); // setting the direction to arrange the data
+        pieChart.setLabelsVisible(true); // Setting the labels of the pie chart visible
+        if (!"ALL".equals(countryComboBox.getValue()) || checkBox.isSelected()){
+            pieChart.setLegendVisible(true);
+        } else {
+            pieChart.setLegendVisible(false);
+        }
         pieChart.setStartAngle(180);
 
         createToolTips(pieChart);
@@ -253,12 +260,12 @@ public class PieChartController implements Initializable {
 
     /* Handle SQL exceptions */
     private void handleSQLException(SQLException e) {
-        e.printStackTrace(); 
+        e.printStackTrace();
     }
 
     /* Close the application */
     @FXML
-    private void closeApplication(){
+    private void closeApplication() {
         Platform.exit();
     }
 }
