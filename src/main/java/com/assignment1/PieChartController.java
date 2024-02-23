@@ -23,7 +23,6 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.paint.Paint;
 import javafx.util.Duration;
 import sql.DBConnection;
 
@@ -146,7 +145,7 @@ public class PieChartController implements Initializable {
         ObservableList<Integer> years = FXCollections.observableArrayList();
         try (Connection conn = DBConnection.getConnection();
                 PreparedStatement stmt = conn
-                        .prepareStatement("SELECT DISTINCT year FROM populationdata ORDER BY year DESC");
+                        .prepareStatement("SELECT DISTINCT year FROM PopulationData ORDER BY year DESC");
                 ResultSet rs = stmt.executeQuery()) {
             while (rs.next()) {
                 int year = rs.getInt("year");
@@ -161,7 +160,7 @@ public class PieChartController implements Initializable {
         ObservableList<String> countries = FXCollections.observableArrayList();
         countries.add("ALL");
         try (Connection conn = DBConnection.getConnection();
-                PreparedStatement stmt = conn.prepareStatement("SELECT DISTINCT country FROM populationdata");
+                PreparedStatement stmt = conn.prepareStatement("SELECT DISTINCT country FROM PopulationData");
                 ResultSet rs = stmt.executeQuery()) {
             while (rs.next()) {
                 String country = rs.getString("country");
@@ -191,7 +190,7 @@ public class PieChartController implements Initializable {
     private PieChart buildPieChart() {
         pieChartData = FXCollections.observableArrayList();
         try (Connection conn = DBConnection.getConnection()) {
-            String sql = "SELECT * FROM populationdata WHERE year = ? ";
+            String sql = "SELECT * FROM PopulationData WHERE year = ? ";
             if (checkBox.isSelected()) {
                 sql += "AND countrykey = 'WLD' ";
             } else {
@@ -226,7 +225,7 @@ public class PieChartController implements Initializable {
         pieChart.setTitle("World Population Ranking");
         pieChart.setClockwise(true); // setting the direction to arrange the data
         pieChart.setLabelsVisible(true); // Setting the labels of the pie chart visible
-        if (!"ALL".equals(countryComboBox.getValue()) || checkBox.isSelected()){
+        if (!"ALL".equals(countryComboBox.getValue()) || checkBox.isSelected()) {
             pieChart.setLegendVisible(true);
         } else {
             pieChart.setLegendVisible(false);

@@ -5,7 +5,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.DecimalFormat;
 import java.util.ResourceBundle;
 
 import javafx.beans.property.SimpleLongProperty;
@@ -77,7 +76,7 @@ public class TableViewController implements Initializable {
 
         // Query database and populate the table
         try (Connection conn = DBConnection.getConnection()) {
-            String sql = "SELECT * FROM populationdata WHERE year = ? ";
+            String sql = "SELECT * FROM PopulationData WHERE year = ? ";
             if (checkBoxSelected) {
                 sql += "AND countrykey = 'WLD' ";
             } else {
@@ -94,7 +93,6 @@ public class TableViewController implements Initializable {
                     stmt.setString(2, country);
                 }
                 try (ResultSet rs = stmt.executeQuery()) {
-                    DecimalFormat df = new DecimalFormat("#,###");
                     while (rs.next()) {
                         String countryName = rs.getString("country");
                         long population = rs.getLong("population");
