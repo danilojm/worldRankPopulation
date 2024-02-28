@@ -12,7 +12,7 @@
 
 <BorderPane fx:id="borderPane" styleClass="borderPaneClass"
    xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"
-   fx:controller="com.assignment1.PieChartController">
+   fx:controller="com.assignment1.controller.PieChartController">
    <top>
       <StackPane>
          <!-- Main HBox for top content -->

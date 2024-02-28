@@ -8,7 +8,7 @@
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
     prefHeight="600.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.171"
     xmlns:fx="http://javafx.com/fxml/1"
-    fx:controller="com.assignment1.TableViewController">
+    fx:controller="com.assignment1.controller.TableViewController">
     <children>
         <TableView fx:id="tableView" layoutX="25.0" layoutY="25.0" prefHeight="550.0"
             prefWidth="1150.0">
