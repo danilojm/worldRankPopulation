@@ -1,7 +1,6 @@
 package com.assignment1.controller;
 
 import com.assignment1.model.PopulationData;
-import com.assignment1.util.DBConnection;
 import com.assignment1.util.PopulationDataUtil;
 
 import javafx.application.Platform;

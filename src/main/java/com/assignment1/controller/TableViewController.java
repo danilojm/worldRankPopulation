@@ -3,7 +3,6 @@ package com.assignment1.controller;
 import com.assignment1.model.PopulationData;
 import com.assignment1.util.PopulationDataUtil;
 
-import javafx.beans.property.SimpleLongProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
